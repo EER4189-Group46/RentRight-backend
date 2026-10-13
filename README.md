@@ -1,11 +1,7 @@
-RentRight – Project Overview
+The backend of RentRight is developed using Node.js and Express.js, with PostgreSQL as the database. It handles the core business logic, processes requests from the frontend, manages user authentication, and communicates with the database to store and retrieve information.
 
-RentRight is a multi-category item rental platform developed as a group project for the EER4189 Software Design in Group module. The main purpose of the system is to provide a centralized online platform where people can rent items such as tools, garden equipment, electronics, sports equipment, and party items without purchasing them.
+The backend supports essential functionalities such as user registration and login, item browsing and searching, item listing management, rental request processing, online payments, messaging, ratings and reviews, and provider earnings. It also manages role-based access for Renters, Item Providers, and Administrators to ensure users can access the appropriate system features.
 
-The platform connects Renters, Item Providers, and Administrators. Renters can search for items, check availability, submit rental requests, make online payments, communicate with providers, and leave ratings and reviews. Item Providers can list and manage their items, approve or decline rental requests, communicate with renters, and track their earnings. Administrators can manage user accounts and monitor platform reports and financial records.
+The backend exposes APIs that allow the React frontend to communicate with the server. PostgreSQL stores and manages related data, including user accounts, items, categories, rental requests, payments, and reviews. Security measures such as password hashing, input validation, and access control are important parts of the backend design.
 
-The system is planned to be developed using React and Tailwind CSS for the frontend, Node.js and Express.js for the backend, and PostgreSQL for database management.
-
-Currently, the project is approximately 45% complete. The authentication system and browse-and-search functionality have been completed, while other modules, including rental request management, payments, messaging, item management, and reviews, are still under development. The Admin Dashboard is planned for a later stage.
-
-Overall, RentRight aims to simplify the rental process in Sri Lanka by replacing fragmented, manual rental arrangements with a convenient, organized, and user-friendly digital platform.
+Current progress: The authentication and browse-and-search functionalities have been completed on both the frontend and backend. The remaining backend modules are being developed and integrated progressively.The backend provides the foundation for RentRight by connecting the user interface, database, and rental business processes into one integrated system.
