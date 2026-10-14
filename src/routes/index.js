@@ -5,6 +5,7 @@ import categoryRoutes from './category.routes.js';
 import itemRoutes from './item.routes.js';
 import rentalRequestRoutes from './rental-request.routes.js';
 import paymentRoutes from './payment.routes.js';
+import messageRoutes from './message.routes.js';
 
 const apiRouter = Router();
 
@@ -24,5 +25,7 @@ apiRouter.use('/categories', categoryRoutes);
 apiRouter.use('/items', itemRoutes);
 apiRouter.use('/rental-requests', rentalRequestRoutes);
 apiRouter.use('/payments', paymentRoutes);
+apiRouter.use('/messages', messageRoutes);
 
 export default apiRouter;
+
