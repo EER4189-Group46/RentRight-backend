@@ -62,6 +62,28 @@ class RentalRequestController {
       next(err);
     }
   }
+/**
+   * PUT /api/rental-requests/:id/cancel
+   * Renter cancels an eligible rental request
+   */
+  async cancel(req, res, next) {
+    try {
+      const cancelled = await rentalRequestService.cancelRequest(
+        req.user.id,
+        req.params.id
+      );
+
+      return responseUtil.success(
+        res,
+        cancelled,
+        'Rental request cancelled successfully.'
+      );
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  
 }
 
 export const rentalRequestController = new RentalRequestController();

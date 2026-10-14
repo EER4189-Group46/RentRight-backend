@@ -178,6 +178,35 @@ class RentalRequestRepository {
     );
     return this.findById(id);
   }
+  /**
+   * Cancel a request only if it belongs to the renter,
+   * is pending or accepted, and has no completed payment.
+   */
+  async cancelRequest(id, renterId) {
+    const pool = getPool();
+
+    const [result] = await pool.execute(
+      `UPDATE rental_requests AS r
+       SET r.status = 'cancelled'
+       WHERE r.id = ?
+         AND r.renter_id = ?
+         AND r.status IN ('pending', 'accepted')
+         AND NOT EXISTS (
+           SELECT 1
+           FROM payments p
+           WHERE p.rental_request_id = r.id
+             AND p.status = 'completed'
+         )`,
+      [id, renterId]
+    );
+
+    // No matching eligible request was updated.
+    if (result.affectedRows === 0) {
+      return null;
+    }
+
+    return this.findById(id);
+  }
 }
 
 export const rentalRequestRepository = new RentalRequestRepository();
