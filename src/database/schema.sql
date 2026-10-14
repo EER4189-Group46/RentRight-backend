@@ -79,7 +79,24 @@ CREATE TABLE IF NOT EXISTS rental_requests (
   INDEX idx_requests_status (status)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- 6. Payments Table (Simulated Academic Gateway Flow)
+-- 6. Messages Table (Renter ↔ Provider Chat)
+CREATE TABLE IF NOT EXISTS messages (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sender_id INT NOT NULL,
+  receiver_id INT NOT NULL,
+  item_id INT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (receiver_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE SET NULL,
+  INDEX idx_messages_sender (sender_id),
+  INDEX idx_messages_receiver (receiver_id),
+  INDEX idx_messages_item (item_id),
+  INDEX idx_messages_created (created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 7. Payments Table (Simulated Academic Gateway Flow)
 CREATE TABLE IF NOT EXISTS payments (
   id INT AUTO_INCREMENT PRIMARY KEY,
   rental_request_id INT NOT NULL UNIQUE,
