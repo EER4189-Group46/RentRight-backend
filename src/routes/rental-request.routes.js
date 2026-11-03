@@ -11,6 +11,13 @@ router.use(authenticateToken);
 router.post('/', rentalRequestController.create);
 router.get('/mine', rentalRequestController.getMine);
 
+// Cancel a rental request (renter only)
+router.put(
+  '/:id/cancel',
+  authorizeRoles('renter'),
+  rentalRequestController.cancel
+);
+
 // Provider endpoints
 router.get(
   '/provider',

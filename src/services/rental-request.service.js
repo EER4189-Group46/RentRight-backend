@@ -100,6 +100,51 @@ class RentalRequestService {
 
     return rentalRequestRepository.updateStatus(requestId, status);
   }
+  /**
+   * Renter action: Cancel an eligible rental request.
+   */
+  async cancelRequest(renterId, requestId) {
+    const request = await rentalRequestRepository.findById(requestId);
+
+    if (!request) {
+      throw new NotFoundError('Rental request not found.');
+    }
+
+    // Verify ownership.
+    if (String(request.renter_id) !== String(renterId)) {
+      throw new ForbiddenError(
+        'You do not have permission to cancel this rental request.'
+      );
+    }
+
+    // Do not allow cancellation after payment.
+    if (request.payment_id || request.payment_status === 'completed') {
+      throw new BadRequestError(
+        'This request cannot be cancelled because payment has been completed.'
+      );
+    }
+
+    // Only pending and accepted requests can be cancelled.
+    if (!['pending', 'accepted'].includes(request.status)) {
+      throw new BadRequestError(
+        'Only pending or accepted rental requests can be cancelled.'
+      );
+    }
+
+    // The repository rechecks eligibility during the database update.
+    const cancelled = await rentalRequestRepository.cancelRequest(
+      requestId,
+      renterId
+    );
+
+    if (!cancelled) {
+      throw new BadRequestError(
+        'This request can no longer be cancelled. Please refresh and check its status.'
+      );
+    }
+
+    return cancelled;
+  }
 }
 
 export const rentalRequestService = new RentalRequestService();
